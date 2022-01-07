@@ -8,6 +8,17 @@ class alimentacao:
 	tabela = dados_alimentos.json()
 
 	tabela_nutricional = (tabela['parsed'][0]['food']['nutrients'])
+		proteina =  (tabela_nutricional[])
+	carbo = (tabela_nutricional[])
+	caloria = (tabela_nutricional[])
+	gordura = (tabela_nutricional[])
+
+
+gordura_ideal= 580 gramas
+proteina_ideal= 65 gramas
+carbo_ideal = 260 gramas
+calorias_ideal = 2680 kcal
+
 
 
 
