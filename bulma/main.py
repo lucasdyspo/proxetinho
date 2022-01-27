@@ -2,7 +2,7 @@ import googlesearch
 import speech_recognition as sr
 import pyttsx3
 import json
-#import pyaudio
+# import pyaudio
 from teste import prepare_data
 import numpy as np
 from tkinter import *
@@ -12,7 +12,6 @@ import tkinter as tk
 import social
 from tkinter import font
 from exemlos import Passwords
-from musicas import musica
 from musicas import player
 
 try:
@@ -44,51 +43,51 @@ def get_audio():
 
     return text
 
-tags = []  # Contains all the different tags
-all_questions_list = []  # Contains the different question with their words tokenized
-questions_tags = []  # Contains the questions tags corresponding to the questions in above list
-all_question_words = []  # Contains all the words in all the questions of the dataset
-
-pr = prepare_data(data)
-all_question_words, tags, all_questions_list, questions_tags = pr.prepare(data, "intents", "all_questions", "tag")
-
-all_questions_train = []
-tags_output = []
-
-all_questions_train, tags_output = pr.get_training_set()
-all_questions_train = np.array(all_questions_train)
-tags_output = np.array(tags_output)
-
-
-# Preparing sub tags models
-sub_tags_list = []
-sub_tags_models = []
-
-
-
-
-for intent in data["intents"]:
-    all_words_sub_questions = []
-    all_sub_tags = []
-    sub_question_tags = []
-    all_sub_questions_list = []
-
-    tr = prepare_data(data)
-    all_words_sub_questions, all_sub_tags, all_sub_questions_list, sub_question_tags = tr.prepare(intent, "sub_tags",
-                                                                                                  "questions", "sub")
-
-    all_sub_questions_train = []
-    sub_tags_output = []
-    all_sub_questions_train, sub_tags_output = tr.get_training_set()
-    all_sub_questions_train = np.array(all_sub_questions_train)
-    sub_tags_output = np.array(sub_tags_output)
+# tags = []  # Contains all the different tags
+# all_questions_list = []  # Contains the different question with their words tokenized
+# questions_tags = []  # Contains the questions tags corresponding to the questions in above list
+# all_question_words = []  # Contains all the words in all the questions of the dataset
+#
+# pr = prepare_data(data)
+# all_question_words, tags, all_questions_list, questions_tags = pr.prepare(data, "intents", "all_questions", "tag")
+#
+# all_questions_train = []
+# tags_output = []
+#
+# all_questions_train, tags_output = pr.get_training_set()
+# all_questions_train = np.array(all_questions_train)
+# tags_output = np.array(tags_output)
+#
+#
+# # Preparing sub tags models
+# sub_tags_list = []
+# sub_tags_models = []
 
 
 
-    sub_tags_list.extend(all_sub_tags)
-
-tags_dict = {}
-answers_dict = {}
+#
+# for intent in data["intents"]:
+#     all_words_sub_questions = []
+#     all_sub_tags = []
+#     sub_question_tags = []
+#     all_sub_questions_list = []
+#
+#     tr = prepare_data(data)
+#     all_words_sub_questions, all_sub_tags, all_sub_questions_list, sub_question_tags = tr.prepare(intent, "sub_tags",
+#                                                                                                   "questions", "sub")
+#
+#     all_sub_questions_train = []
+#     sub_tags_output = []
+#     all_sub_questions_train, sub_tags_output = tr.get_training_set()
+#     all_sub_questions_train = np.array(all_sub_questions_train)
+#     sub_tags_output = np.array(sub_tags_output)
+#
+#
+#
+#     sub_tags_list.extend(all_sub_tags)
+#
+# tags_dict = {}
+# answers_dict = {}
 
 
 def main():
