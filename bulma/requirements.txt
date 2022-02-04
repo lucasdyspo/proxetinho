@@ -1,2 +1,0 @@
-mysql-connector-python~=8.0.26
-selenium~=4.0.0

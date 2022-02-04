@@ -1,2 +1,0 @@
-[]
-['C:/Users/Lucas Gabriel/Music/Djonga - NU/01 - Nós_43581590.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/02 - Ó Quem Chega_43581591.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/03 - Xapralá_43581592.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/04 - Me Dá a Mão_43581593.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/05 - Vírgula_43581594.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/06 - Ricô_43581595.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/07 - Dá pra Ser_43581596.mp3', 'C:/Users/Lucas Gabriel/Music/Djonga - NU/08 - Eu_43581597.mp3']
