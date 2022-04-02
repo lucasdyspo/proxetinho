@@ -18,17 +18,29 @@ class nutrition:
 
     @classmethod
     def modify_meta_nutrients(cls, period, fat = fat_ideal, protein = protein_ideal, carbo = carbo_ideal, caloria = caloria_ideal):
+        "alter the objectives and you values, for a period time that said input"
+        input('what news values')
         pass
 
 
 class meal(nutrition):
     aliments_of_meal = []
+    nutrients_of_meal = []
+
+    def remove_aliment(self, *aliments):
+        global aliments_of_meal
+
+        for ali_m in aliments_of_meal:
+            for ali in aliments:
+                if ali == ali_m.name:
+                    aliments_of_meal.remove(ali_m)
+        return aliments_of_meal
 
 
 
 
-    def calc_nut(self):
-        nutrients_of_meal = []
+    def __calc_nut_meal(self):
+        global nutrients_of_meal
         calorie = 0
         fat = 0
         protein = 0
@@ -39,7 +51,7 @@ class meal(nutrition):
             fat = fat + aliment.fat
             carbo = carbo + aliment.carbohydrate
         nutrients_of_meal.append([calorie, protein, fat, carbo])
-
+        return nutrients_of_meal
 
 
 
@@ -55,6 +67,8 @@ class aliment_api(nutrition):
         self.gramas = gramas / 100
         dados_alimentos = (requests.get(f"https://api.edamam.com/api/food-database/v2/parser?app_id=147a6cdf&app_key=151a5a0252dfd4b3f9dbbe47fd7c21dc&ingr={food}&nutrition-type=cooking"))
         tabela = dados_alimentos.json()
+        self.name = tabela['text']
+        print(self.name)
         print(tabela)
         tabela_nutricional = (tabela['parsed'][0]['food']['nutrients'])
         print(tabela_nutricional)
@@ -64,30 +78,23 @@ class aliment_api(nutrition):
         self.carbohydrate = (self.gramas * (tabela_nutricional['CHOCDF']))
         print(self.calorie)
 
-
-
-
-
-#
-# def registro_proxetinho():
-#     con = mysql.connector.connect(host='localhost', database='proxetinho', user='root', password='Lucashaha10*')
-#     if con.is_connected():
-#
-#
-#         for coluna in colunas:
-#             index = colunas.index(coluna)
-#             valor = valores[index]
-#             declaracao = """INSERT INTO `proxetinho`.`alimentacao` (`{}`) VALUES ('{}');""".format(coluna, valor)
-#             cursor = con.cursor()
-#             cursor.execute(declaracao)
-#             con.commit()
-#     if con.is_connected():
-#         cursor = con.cursor()
-#         cursor.close()
-#         con.close()
-#         print("encerrou a conexao")
+    def search_food(self, fat=False, calorie=False, carbo=False, protein=False, grams=100):
+        if fat:
+            print(f' the food has', + self.fat + 'g of fat in '+ grams + 'g')
+        elif calorie:
+            print(f' the food has', + self.calorie + 'Kcal of calories in '+ grams + 'g')
+        elif carbo:
+            print(f' the food has', + self.carbohydrate + 'g of carbohydrate in '+ grams + 'g')
+        elif protein:
+            print(f' the food has', + self.protein + 'g of protein in '+ grams + 'g')
 
 
 
 
 
+
+
+
+
+
+aliment_api('rice', 100)
