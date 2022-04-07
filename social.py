@@ -1,11 +1,38 @@
 import mysql
 from mysql import connector
 import selenium
+from selenium import *
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import urllib
 import time
 import tkinter as tk
+import re
+from selenium.webdriver.common.by import By
+from instadm import InstaDM
+"""numero = "94093][3,4-598795fds"
+numero_telefone = re.sub(r"|]|\[|(|)|'|\+|,|\-|[a-z]", '', numero)
+print(numero_telefone)
+"""
+
+selectors = {
+            "accept_cookies": "//button[text()='Allow essential and optional cookies']",
+            "accept_cookies_post_login": "//button[text()='Allow all cookies']",
+            "home_to_login_button": "//button[text()='Log In']",
+            "count_messages": '//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/div/div/div',
+            "username_field": '//*[@id="loginForm"]/div/div[1]/div/label/input',
+            "password_field": '//*[@id="loginForm"]/div/div[2]/div/label/input',
+            "button_login": '//*[@id="loginForm"]/div/div[3]/button/div',
+            "login_check": '//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/svg',
+            "search_user": '//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/input',
+            "select_user": '//div[text()="{}"]',
+            "profile_inbox_message": '//*[@id="react-root"]/section/main/div/header/section/div[1]/div[1]/div/div[1]/button/div',
+            "name": "((//div[@aria-labelledby]/div/span//img[@data-testid='user-avatar'])[1]//..//..//..//div[2]/div[2]/div)[1]",
+            "next_button": "//button/*[text()='Next']",
+            "textarea": '//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea',
+            "send": "//button[text()='Send']",
+            "chh" : "/html/body/div[5]/div/div/div/div[3]/button[2]"
+        }
 
 
 def humanizar_mensagem(mensagem):
@@ -28,21 +55,11 @@ def humanizar_mensagem(mensagem):
             mensagem_editada.append(i)
 
     return mensagem_editada
-
-def formatar_mensagem(mensagem):
-
-    lista = ["'", '[', ']', ',',]
-    for i in lista:
-        mensagem = mensagem.replace(i, '')
-    return palavra
-
-def formatar_numero(palavra):
-
-    lista = [' ', '-', "'", '[', ']', '+', '(', ')', ',', ")"]
-    for i in lista:
-        palavra = palavra.replace(i, '')
-    return palavra
-
+"""def _formatar_numero(numero):
+    
+    numero_telefone = re.sub(r"|]|\[|(|)|'|\+|,|\-", '', numero)
+   
+    return numero_telefone"""
 def pesquisar_contato (nome, coluna):
     con = mysql.connector.connect(host='localhost', database='proxetinho', user='root', password='Lucashaha10*')
     if con.is_connected():
@@ -60,32 +77,99 @@ def pesquisar_contato (nome, coluna):
         print("chega")
 
 
-def login_insta ():
+def mensagem_insta(insta, mensagem):
+    button = driver.find_element(By.XPATH(selectors["search_user"]))
+    button.click()
+    button.send_keys(insta)
+    button = driver.find_element(By.XPATH(selectors["profile_inbox_message"]))
+    button.click()
+    button = driver.find_element(By.XPATH(selectors["textarea"]))
+    button.click()
+    button.send_keys(mensagem)
+    button.send_keys(Keys.ENTER)
+
+
+def login_insta():
     driver = webdriver.Chrome()
     driver.get("https://www.instagram.com/")
-    time.sleep(3)
-    login_button = driver.find_element_by_xpath(
-                '//*[@id="loginForm"]/div/div[1]/div/label/input')
-    login_button.click()
-    time.sleep(1)
-    usuario = "lucas_dyspo"
+    time.sleep(10)
 
-    user_element = driver.find_element_by_xpath(
-        "//input['username']")
+    usuario = "lukinhandrade"
+    user_element = driver.find_element_by_xpath(selectors["username_field"])
     user_element.clear()
     user_element.send_keys(usuario)
     time.sleep(1)
-    senha = '83915684luh'
-    password_element = driver.find_element_by_xpath(
-        "//input[@name='password']")
+    senha = 'Lucashaha10*'
+    password_element = driver.find_element_by_xpath(selectors["password_field"])
     password_element.clear()
     password_element.send_keys(senha)
     time.sleep(1)
-    enter = driver.find_element_by_xpath('//*[@id="loginForm"]/div/div[3]/button/div')
-    enter.click()
+    driver.find_element_by_xpath(selectors["button_login"]).click()
+
+    lk = 'naritmo08'
+    hg = 'papao'
+    time.sleep(10)
+    check = driver.find_element_by_xpath(selectors["chh"])
+    check.click()
+    time.sleep(10)
+    caxa = driver.find_element_by_xpath(selectors["search_user"])
+    caxa.send_keys(lk)
+    time.sleep(4)
+    caxa.send_keys(Keys.ENTER, Keys.ENTER)
+    time.sleep(10)
+    print("tipo isssssooooooo")
     time.sleep(3)
-    validar = driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button')
-    validar.click()
+    button = driver.find_element_by_xpath(selectors["profile_inbox_message"])
+    button.click()
+    time.sleep(7)
+    button = driver.find_element_by_xpath(selectors["textarea"])
+    time.sleep(3)
+    button.send_keys(hg)
+    time.sleep(3)
+    button.send_keys(Keys.ENTER)
+
+
+
+login_insta()
+
+def _is_element_present(self, how, what):
+    """Check if an element is present"""
+    try:
+        self.driver.find_element(by=how, value=what)
+    except NoSuchElementException:
+        return False
+    return True
+
+def __wait_for_element__(element_tag, tag, timeout=15):
+    """Wait till element present. Max 30 seconds"""
+    result = False
+    for i in range(timeout):
+        try:
+            if locator == 'NAME' and _self.is_element_present(By.NAME, element_tag):
+                result = True
+                break
+            elif locator == 'XPATH' and _self.is_element_present(By.XPATH, element_tag):
+                result = True
+                break
+            else:
+                logging.info(f"Error: Incorrect locator = {tag}")
+                time.sleep(0.7)
+        except Exception as e:
+            logging.error(e)
+            print(f"Exception when __wait_for_element__ : {e}")
+
+
+    # print(q)
+    # time.sleep(2)
+    # enter.click()
+    # time.sleep(10)
+    # y = driver.find_element_by_xpath("/html/body/div[5]/div/div/div/div[3]/button[2]")
+    # y.click()
+    # l = "sdjasdlkj"
+    # t = ('golsdosaopaulo')
+    #
+    #
+    # mensagem_insta(t, l)
 
 def add_contato():
     con = mysql.connector.connect(host='localhost', database='proxetinho', user='root', password='Lucashaha10*')
@@ -103,18 +187,6 @@ def add_contato():
         cursor.close()
         con.close()
         print("encerrou a conexao")
-
-def mensagem_insta(insta, mensagem):
-    driver = webdriver.Chrome()
-    driver.get(f'https://www.instagram.com/"{insta}"/')
-    botao = driver.find_element_by_xpath('// *[ @ id = "react-root"] / section / main / div / header / section / div[1] / div[1] / div / div[1] / button / div')
-    botao.click()
-    campo_mensagem = driver.find_element_by_xpath('//*[@id="react-root"]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea')
-    campo_mensagem.click()
-    campo_mensagem.clear()
-    campo_mensagem.send_keys(mensagem)
-    campo_mensagem.send_keys(Keys.ENTER)
-
 def mensagem_whats(mensagem, telefone):
     navegador = webdriver.Chrome()
     while len(navegador.find_elements_by_id("side")) < 1:
@@ -125,8 +197,61 @@ def mensagem_whats(mensagem, telefone):
             time.sleep(1)
         navegador.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]').send_keys(Keys.ENTER)
         time.sleep(10)
+def check_messages():
+    try:
+        msg = driver.find_element(By.XPATH(selectors["count_messages"]))
+        if msg:
+            msg = driver.find_element(By.XPATH(selectors["count_messages"])).text
+            print('you have', msg, 'new messages')
+    except:
+        print('you not have messages')
 
 
+#
+# selector = '//*[@id="gb"]/div/div[2]/a'
+# goo = webdriver.Chrome()
+# goo.get('https://www.google.com.br/')
+# y = goo.find_element_by_xpath(selector).text
+# print(y)
+# time.sleep(4)
+# p = goo.find_element_by_xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")
+# p.send_keys('só teste mermo', Keys.ENTER)
+
+
+
+
+
+
+
+
+
+"""
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/div
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/div/div
+
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/svg
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a
+
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a 
+//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/svg
+
+
+
+"""
+# <div class="             qF0y9          Igw0E     IwRSH      eGOV_         _4EzTm ">Entrar</div>
+
+# a = str(<a aria-label="Mensagem direta — Link para 1 nova notificação" class="xWeGp" href="/direct/inbox/" tabindex="0"><svg aria-label="Direct" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334 stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg><div class="KdEwV"><div class="J_0ip  Vpz-1  TKi86 "><div class="bqXJH">1</div></div></div></a>)
+# print(a)
+# driver = webdriver.Chrome()
+# driver.get("https://www.google.com.br/")
+# z = driver.find_element(By.XPATH, '//*[@id="gb"]/div/div[2]/a')
+# n = z.find_element(By.CLASS_NAME, "gb_1 gb_2 gb_9d gb_9c")
+#
+# print(z)
+# print(n)
+# z.click()
+# # <a class="gb_1 gb_2 gb_9d gb_9c" href="https://accounts.google.com/ServiceLogin?hl=pt-BR&amp;passive=true&amp;continue=https://www.google.com.br/&amp;ec=GAZAmgQ" target="_top">Fazer login</a>
+# #react-root > section > nav > div._8MQSO.Cx7Bp > div > div > div.ctQZg.KtFt3 > div > div:nth-child(2) > a > div > div > div
 
 
 
