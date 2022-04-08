@@ -20,6 +20,7 @@ selectors = {
             "accept_cookies_post_login": "//button[text()='Allow all cookies']",
             "home_to_login_button": "//button[text()='Log In']",
             "count_messages": '//*[@id="react-root"]/section/nav/div[2]/div/div/div[3]/div/div[2]/a/div/div/div',
+
             "username_field": '//*[@id="loginForm"]/div/div[1]/div/label/input',
             "password_field": '//*[@id="loginForm"]/div/div[2]/div/label/input',
             "button_login": '//*[@id="loginForm"]/div/div[3]/button/div',
@@ -35,46 +36,90 @@ selectors = {
         }
 
 
-def humanizar_mensagem(mensagem):
-    palavra = mensagem.split()
-    mensagem_editada = []
-    termo = ['ruim', "voce", 'obrigado', 'não', 'por favor', 'verdade', 'valeu', 'porque', 'de novo', 'aqui', 'por que',
-             'saudades', 'saudade', 'firmeza', 'mesmo', 'comigo', 'sei la', 'risos', 'gargalhada']
+class instagram:
+    def __init__(self):
+        self.driver = webdriver.Chrome()
+        self.user = 'lukinhandrade'
+        self.password= "Lucahaha10*"
 
-    abreviacao = ['ruim', 'vc', 'obd', 'n', 'pfv', 'vdd', 'vlw', 'pq', 'dnv', 'aq', 'pq', 'sdds', 'sdd', 'fmz',
-                  'msm', 'cmg', 'sla', 'kk', 'kkikkskklkksk']
-    for i in palavra:
+    def login(self):
+        self.driver.get("https://www.instagram.com/")
+        #time
+        user_element = driver.find_element_by_xpath(selectors["username_field"])
+        user_element.clear()
+        user_element.send_keys(self.user)
+        #time
+        password_element = driver.find_element_by_xpath(selectors["password_field"])
+        password_element.clear()
+        password_element.send_keys(senha)
+        #time
+        driver.find_element_by_xpath(selectors["button_login"]).click()
+        #time
+        check = driver.find_element_by_xpath(selectors["chh"])
+        check.click()
+        #time
 
-        if palavra.count(i) > 1:
-            termo = termo.index(i)
-            abr = termo.index(i)
-            abr = (abreviacao[abr])
-            mensagem_editada.append(abr)
 
-        else:
-            mensagem_editada.append(i)
 
-    return mensagem_editada
-"""def _formatar_numero(numero):
+    def send_message(self, msg, profile):
+        caxa = driver.find_element_by_xpath(selectors["search_user"])
+        caxa.send_keys(profile)
+        #time
+        caxa.send_keys(Keys.ENTER, Keys.ENTER)
+        #time
+        print("tipo isssssooooooo")
+        # time.sleep(3)
+        button = driver.find_element_by_xpath(selectors["profile_inbox_message"])
+        button.click()
+        # time.sleep(7)
+        button = driver.find_element_by_xpath(selectors["textarea"])
+        # time.sleep(3)
+        button.send_keys(msg)
+        # time.sleep(3)
+        button.send_keys(Keys.ENTER)
+
+    @staticmethod
+    def humanizar_mensagem(mensagem):
+        palavra = mensagem.split()
+        mensagem_editada = []
+        termo = ['ruim', "voce", 'obrigado', 'não', 'por favor', 'verdade', 'valeu', 'porque', 'de novo', 'aqui', 'por que',
+                 'saudades', 'saudade', 'firmeza', 'mesmo', 'comigo', 'sei la', 'risos', 'gargalhada']
+
+        abreviacao = ['ruim', 'vc', 'obd', 'n', 'pfv', 'vdd', 'vlw', 'pq', 'dnv', 'aq', 'pq', 'sdds', 'sdd', 'fmz',
+                      'msm', 'cmg', 'sla', 'kk', 'kkikkskklkksk']
+        for i in palavra:
+
+            if palavra.count(i) > 1:
+                termo = termo.index(i)
+                abr = termo.index(i)
+                abr = (abreviacao[abr])
+                mensagem_editada.append(abr)
+
+            else:
+                mensagem_editada.append(i)
+
+        return mensagem_editada
+    """def _formatar_numero(numero):
     
     numero_telefone = re.sub(r"|]|\[|(|)|'|\+|,|\-", '', numero)
    
     return numero_telefone"""
-def pesquisar_contato (nome, coluna):
-    con = mysql.connector.connect(host='localhost', database='proxetinho', user='root', password='Lucashaha10*')
-    if con.is_connected():
-        consulta = (f'select {coluna} from contatos where nome = "{nome}";')
-        cursor = con.cursor()
-        cursor.execute(consulta)
-        linha = cursor.fetchall()
-        linha = str(linha)
-        linha = formatar_numero(linha)
-        return linha
-    if con.is_connected():
-        cursor = con.cursor()
-        con.close()
-        cursor.close()
-        print("chega")
+    @staticmethod
+    def _pesquisar_contato (nome, coluna):
+        con = mysql.connector.connect(host='localhost', database='proxetinho', user='root', password='Lucashaha10*')
+        if con.is_connected():
+            consulta = (f'select {coluna} from contatos where nome = "{nome}";')
+            cursor = con.cursor()
+            cursor.execute(consulta)
+            linha = cursor.fetchall()
+            linha = str(linha)
+            linha = formatar_numero(linha)
+            return linha
+        if con.is_connected():
+            cursor = con.cursor()
+            con.close()
+            cursor.close()
+            print("chega")
 
 
 def mensagem_insta(insta, mensagem):
@@ -129,13 +174,32 @@ def login_insta():
     button.send_keys(Keys.ENTER)
 
 
-
-login_insta()
-
-def _is_element_present(self, how, what):
-    """Check if an element is present"""
+def __get_element__(self, path, timeout=20):
+    outcome = False
     try:
-        self.driver.find_element(by=how, value=what)
+        for i in range(timeout):
+            if _is_element_present(1, path):
+                outcome = True
+                break
+            else:
+                time.sleep(0.3)
+                outcome = False
+    except excep as e:
+        print('the execution error in', path, e)
+    if outcome == True:
+        keypath = self.driver.find_element_by_xpath(path)
+        return keypath
+
+
+
+
+
+
+
+
+def _is_element_present(self, what, selector="xpath"):
+    try:
+        self.driver.find_element(by=selector, value=what)
     except NoSuchElementException:
         return False
     return True
@@ -157,6 +221,7 @@ def __wait_for_element__(element_tag, tag, timeout=15):
         except Exception as e:
             logging.error(e)
             print(f"Exception when __wait_for_element__ : {e}")
+
 
 
     # print(q)
@@ -199,23 +264,29 @@ def mensagem_whats(mensagem, telefone):
         time.sleep(10)
 def check_messages():
     try:
-        msg = driver.find_element(By.XPATH(selectors["count_messages"]))
+        msg = driver.find_element_by_xpath(selectors["count_messages"])
+
         if msg:
-            msg = driver.find_element(By.XPATH(selectors["count_messages"])).text
-            print('you have', msg, 'new messages')
+            numer = driver.find_element_by_xpath(selectors["count_messages"]).text
+
+            print('you have', numer, 'new messages')
     except:
-        print('you not have messages')
+        print('you not have new messages or messages unread')
 
 
-#
+
+
+
+
+
 # selector = '//*[@id="gb"]/div/div[2]/a'
 # goo = webdriver.Chrome()
 # goo.get('https://www.google.com.br/')
 # y = goo.find_element_by_xpath(selector).text
-# print(y)
+# print((y))
 # time.sleep(4)
-# p = goo.find_element_by_xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")
-# p.send_keys('só teste mermo', Keys.ENTER)
+# goo.find_element_by_xpath("/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input").send_keys('só teste mermo', Keys.ENTER)
+
 
 
 
